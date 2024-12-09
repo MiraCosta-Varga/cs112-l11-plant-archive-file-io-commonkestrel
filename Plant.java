@@ -26,6 +26,41 @@ public class Plant {
 		}
 	}
 
+	public Plant(String data) throws IllegalArgumentException {
+		if (data == null) {
+			throw new IllegalArgumentException("Invalid data passed (null)");
+		}
+
+		String[] input = data.split(",");
+
+		if (input.length != 3) {
+			throw new IllegalArgumentException("Invalid data passed (too many arguments)");
+		}
+
+		// Get the split data
+		String name = input[0];
+		String unparsedTemp = input[1];
+		String uses = input[2];
+
+		// Parse the `double` temperature from the string
+		double tempFahrenheit;
+		try {
+			tempFahrenheit = Double.parseDouble(unparsedTemp);
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Invalid temperature value passed: " + e);
+		}
+
+		if(!this.setName(name)) {
+			throw new IllegalArgumentException("Invalid name value passed: " + name);
+		}
+		if(!this.setTempFahrenheit(tempFahrenheit)) {
+			throw new IllegalArgumentException("Invalid temperature (F) value passed: " + tempFahrenheit);
+		}
+		if(!this.setUses(uses)) {
+			throw new IllegalArgumentException("Invalid uses value passed: " + uses);
+		}
+	}
+
 	public Plant(Plant original) throws IllegalArgumentException {
 		if(original == null) {
 			throw new IllegalArgumentException("Invalid Plant object to copy passed (null)");
